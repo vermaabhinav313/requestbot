@@ -7,7 +7,7 @@ logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s'
 
 IN_GRP = -1001395532797
 
-REQ_GO = -1001367918551
+REQ_GO = -1001264185629
 
 api_id = 3909061
 api_hash = '24d08fc8fba91f9e68831af44ca55a67'
