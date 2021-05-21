@@ -9,9 +9,9 @@ IN_GRP = -1001395532797
 
 REQ_GO = -1001264185629
 
-api_id = 3909061
-api_hash = '24d08fc8fba91f9e68831af44ca55a67'
-bot_token = "1830183908:AAGsVW-17oL34r1oQQXhjDfv3h9jd4LtZmg"
+api_id = 908950
+api_hash = 'b3d97d5998f10a88c87650b28e96d92f'
+bot_token = "1895968093:AAGCLiKFlh8aJp-tBLsJ2tN2aboQ6C4qYH8"
 
 asst = TelegramClient('anon', api_id, api_hash).start(bot_token=bot_token)
 bot = asst
