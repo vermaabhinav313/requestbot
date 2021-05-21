@@ -5,7 +5,7 @@ import logging
 logging.basicConfig(format='[%(levelname) 5s/%(asctime)s] %(name)s: %(message)s',
                     level=logging.WARNING)
 
-IN_GRP = -1001453145062
+IN_GRP = -1001395532797
 
 REQ_GO = -1001367918551
 
@@ -16,7 +16,7 @@ bot_token = "1830183908:AAGsVW-17oL34r1oQQXhjDfv3h9jd4LtZmg"
 asst = TelegramClient('anon', api_id, api_hash).start(bot_token=bot_token)
 bot = asst
 
-auth = [1747366116, 1731629487, 1703941777, 868966442, 1826527056]
+auth = [1613301947, 1270604313, 1132363465, 1380685014, 1779623655]
 
 @asst.on(events.NewMessage(chats=IN_GRP))
 async def filter_requests(event):
@@ -67,7 +67,7 @@ async def delete_message(event):
 @asst.on(events.callbackquery.CallbackQuery(data="isdone"))
 async def isdone(e):
     if not auth:
-        async for x in bot.iter_participants("@anime_chat_ocean", filter=ChannelParticipantsAdmins):
+        async for x in bot.iter_participants("@WeebGalaxy", filter=ChannelParticipantsAdmins):
              auth.append(x.id)
     if e.sender_id in auth:
         x = await bot.get_messages(e.chat_id, ids=e.message_id)
