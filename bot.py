@@ -23,10 +23,7 @@ async def filter_requests(event):
     if event.fwd_from:
         return
     if "#request" in event.text:
-        if (event.reply_to_msg_id):
-            msg = (await event.get_reply_message()).message
-        else:
-            msg = event.text
+        msg = event.text
         try:
             sender = event.sender
             if sender.bot:
@@ -47,14 +44,14 @@ async def filter_requests(event):
                                 ],[Button.inline("Done", data="isdone")]])
         await event.reply("Your request has been submitted!", buttons=[Button.url("View", url=f"https://t.me/{username}/{x.id}")])
         if not auth:
-            async for x in bot.iter_participants("@anime_chat_ocean", filter=ChannelParticipantsAdmins):
+            async for x in bot.iter_participants("@WeebGalaxy", filter=ChannelParticipantsAdmins):
                 auth.append(x.id)
     
 
 @asst.on(events.callbackquery.CallbackQuery(data="reqdelete"))
 async def delete_message(event):
     if not auth:
-        async for x in bot.iter_participants("@anime_chat_ocean", filter=ChannelParticipantsAdmins):
+        async for x in bot.iter_participants("@WeebGalaxy", filter=ChannelParticipantsAdmins):
              auth.append(x.id)
     if event.sender_id in auth:
         x = await bot.get_messages(event.chat_id, ids=event.message_id)
@@ -85,6 +82,51 @@ async def ans(e):
 @asst.on(events.callbackquery.CallbackQuery(data="ndone"))
 async def ans(e):
     await e.answer("Sorry, This Requested Anime Is Not Available.", alert=True, cache_time=0)
+
+@asst.on(events.NewMessage(chats=IN_GRP))
+async def filter_reports(event):
+    if event.fwd_from:
+        return
+    if "#report" in event.text:
+        msg = event.text
+        try:
+            sender = event.sender
+            if sender.bot:
+                return
+            if not sender.username:
+                user = f"[{get_display_name(sender)}](tg://user?id={event.sender_id})"
+            else:
+                user = "@" + str(sender.username)
+        except BaseException:
+            user = f"[User](tg://user?id={event.sender_id})"
+        chat_id = (str(event.chat_id)).replace("-100", "")
+        username = ((await bot.get_entity(REQ_GO)).username)
+        x = await asst.send_message(REQ_GO,
+                                f"**Reported By {user}**\n\n{msg}",
+                                buttons=[[Button.inline("🔥 Channel Reestablishing 🔥", data="retab")]])
+        await event.reply("Your report has been submitted! Have Fun till then by watching other anime in our channel @AnimeGalaxyOfficial.", buttons=[Button.url("View", url=f"https://t.me/{username}/{x.id}")])
+        if not auth:
+            async for x in bot.iter_participants("@WeebGalaxy", filter=ChannelParticipantsAdmins):
+                auth.append(x.id)
+
+
+@asst.on(events.callbackquery.CallbackQuery(data="retab"))
+async def retab(e):
+    if not auth:
+        async for x in bot.iter_participants("@WeebGalaxy", filter=ChannelParticipantsAdmins):
+            auth.append(x.id)
+    if e.sender_id in auth:
+        x = await bot.get_messages(e.chat_id, ids=e.message_id)
+        xx = x.raw_text
+        await e.edit(f"~~{xx}~~\n\nCOMPLETED!", buttons=[Button.inline("🏵🏆 Channel Reestablished 🏆🏵", data="re")])
+    else:
+        await e.answer("This is for admins/mainainers only. You are not one. Go Back!!!", alert=True, cache_time=0)
+
+    await asst.send_message(IN_GRP, f"{xx}.\n\nChannel has been reestablished. Please check @AnimeGalaxyOfficial.\n\nRegards,\nTeam @AnimeGalaxyOfficial")
+
+@asst.on(events.callbackquery.CallbackQuery(data="re"))
+async def ans(e):
+    await e.answer("This Channel is reestablished check out channels 😁😁", alert=True, cache_time=0)
         
 asst.start()
 print("Bot Started")
